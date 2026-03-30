@@ -405,28 +405,3 @@ input:checked + .slider:before {
   transform: translateX(125px);
   background: linear-gradient(135deg, var(--sand), var(--ivory));
 }
-.image-slider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  margin: 20px 0;
-}
-
-.image-slider img {
-  width: 100%;
-  max-width: 100%;
-  height: 500px;
-  object-fit:fill;
-  border-radius: 12px;
-}
-
-.image-slider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  margin: 20px 0;
-  width: 100%;
-  padding: 0 20px;
-}
