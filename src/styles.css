@@ -186,7 +186,6 @@ nav a:hover {
   font-family: "Jost", sans-serif;
   border-radius: 50px;
   border: 1px solid var(--glass-border);
-  outline: none;
   background: rgba(237, 217, 192, 0.45);
   color: var(--brown-dark);
   letter-spacing: 0.5px;

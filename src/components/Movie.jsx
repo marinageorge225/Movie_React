@@ -1,7 +1,6 @@
 import React from "react";
 
 const Movie = ({ movie }) => {
-  // 🎯 decide rating color
   const ratingClass =
     movie.rating >= 8
       ? "rating-good"
@@ -9,15 +8,16 @@ const Movie = ({ movie }) => {
         ? "rating-ok"
         : "rating-bad";
 
+  const handleError = (e) => {
+    e.target.src = "/images/default.jpg";
+  };
+
   return (
     <div className="movie-card">
-      <img src={movie.imageUrl} alt={movie.name} />
-
+      <img src={movie.imageUrl} alt={movie.name} onError={handleError} />
       <div className="movie-card-info">
         <h3 className="movie-card-title">{movie.name}</h3>
-
         <p className="movie-card-genre">{movie.genre}</p>
-
         <span className={`movie-card-rating ${ratingClass}`}>
           ⭐ {movie.rating}
         </span>

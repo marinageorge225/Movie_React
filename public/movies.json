@@ -10,14 +10,14 @@
     "id": 2,
     "name": "The Lion King",
     "imageUrl": "/images/2.jpg",
-    "genre": "Adventure",
+    "genre": "Animation",
     "rating": 8.5
   },
   {
     "id": 3,
     "name": "Finding Nemo",
     "imageUrl": "/images/3.jpg",
-    "genre": "Family",
+    "genre": "Animation",
     "rating": 8.1
   },
   {
@@ -45,7 +45,7 @@
     "id": 7,
     "name": "La La Land",
     "imageUrl": "/images/7.jpg",
-    "genre": "Musical",
+    "genre": "Romance",
     "rating": 8.0
   },
   {
