@@ -96,7 +96,6 @@ const RatingForm = ({ movieName = "Dune: Part Two" }) => {
     setError(false);
     setSuccess("Thank you! Your review was submitted.");
 
-    // Reset form
     setName("");
     setMovieRating(0);
     setSiteRating(0);

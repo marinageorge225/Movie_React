@@ -76,6 +76,7 @@ body::before {
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid var(--glass-border);
+  height: 100px;
 }
 
 .logo {
@@ -90,7 +91,7 @@ body::before {
 /* ===== Navigation ===== */
 .nav {
   display: flex;
-  gap: 25px;
+  gap: 15px;
   flex: 1;
   justify-content: center;
 }
@@ -99,7 +100,7 @@ body::before {
   color: var(--brown);
   font-size: 15px;
   font-weight: 400;
-  letter-spacing: 0.5px;
+
   text-decoration: none;
   position: relative;
   transition: 0.3s;
@@ -109,8 +110,6 @@ body::before {
   content: "";
   position: absolute;
   width: 0%;
-  height: 1px;
-  bottom: -4px;
   left: 0;
   background: linear-gradient(90deg, var(--brown-light), transparent);
   transition: 0.3s;
@@ -127,7 +126,7 @@ body::before {
 /* Legacy nav (ul-based) */
 nav {
   margin-top: 50px;
-  margin-bottom: 25px;
+  margin-bottom: 50px;
 }
 
 ul {
@@ -210,7 +209,6 @@ nav a:hover {
 }
 
 .filter-slot {
-  background: rgba(237, 217, 192, 0.5);
   padding: 5px 18px;
   border-radius: 50px;
   border: 1px solid var(--glass-border);
