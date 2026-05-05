@@ -6,6 +6,7 @@ import Movies from "./components/Movies";
 import Slider from "./components/Slider";
 import ShowAllReviews from "./components/ShowAllReviews";
 import "./styles.css";
+import MovieDetails from "./components/movieDetails";
 
 function HomePage() {
   return (
@@ -24,6 +25,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/reviews" element={<ShowAllReviews />} />
+      <Route path="/movieDetails/:id" element={<MovieDetails />} />
     </Routes>
   );
 }

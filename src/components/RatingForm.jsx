@@ -1,58 +1,26 @@
 import { useState, useEffect } from "react";
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Rating,
-  Divider,
-  Chip,
-  Paper,
-} from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import RateReviewIcon from "@mui/icons-material/RateReview";
 
-/* ===== Custom Theme ===== */
-const theme = createTheme({
-  palette: {
-    mode: "light",
-    primary: {
-      main: "#6b3e20",
-    },
-    background: {
-      default: "#fdf6ed",
-      paper: "#fdf6ed",
-    },
-    text: {
-      primary: "#3b1f0a",
-      secondary: "#9a7050",
-    },
-  },
-  shape: {
-    borderRadius: 14,
-  },
-});
-
-/* ===== Star Rating Field ===== */
-const StarRatingField = ({ label, required, value, onChange }) => (
-  <Box>
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-      <Typography variant="caption">{label}</Typography>
-      {required && <Chip label="Required" size="small" />}
-    </Box>
-    <Rating
-      value={value}
-      onChange={(_, newValue) => onChange(newValue || 0)}
-      icon={<StarIcon fontSize="inherit" />}
-      emptyIcon={<StarBorderIcon fontSize="inherit" />}
-    />
-  </Box>
+const StarRating = ({ label, required, value, onChange }) => (
+  <div className="rf-field">
+    <label className="rf-label">
+      {label} {required && <span className="rf-required">*</span>}
+    </label>
+    <div className="rf-stars">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <button
+          key={star}
+          type="button"
+          className={`rf-star ${value >= star ? "rf-star--lit" : ""}`}
+          onClick={() => onChange(star)}
+        >
+          ★
+        </button>
+      ))}
+    </div>
+  </div>
 );
 
-/* ===== Main Component ===== */
 const RatingForm = ({ movieName = "Dune: Part Two" }) => {
   const [name, setName] = useState("");
   const [movieRating, setMovieRating] = useState(0);
@@ -61,10 +29,8 @@ const RatingForm = ({ movieName = "Dune: Part Two" }) => {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState("");
   const [reviews, setReviews] = useState([]);
-
   const navigate = useNavigate();
 
-  /* Load saved reviews */
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("reviews")) || [];
     setReviews(stored);
@@ -72,13 +38,11 @@ const RatingForm = ({ movieName = "Dune: Part Two" }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!name.trim() || movieRating === 0 || siteRating === 0) {
       setError(true);
       setSuccess("");
       return;
     }
-
     const newReview = {
       name: name.trim(),
       movie: movieName,
@@ -86,16 +50,14 @@ const RatingForm = ({ movieName = "Dune: Part Two" }) => {
       siteRating,
       review: review.trim(),
     };
-
-    const existing = JSON.parse(localStorage.getItem("reviews")) || [];
-    const updated = [...existing, newReview];
-
+    const updated = [
+      ...(JSON.parse(localStorage.getItem("reviews")) || []),
+      newReview,
+    ];
     localStorage.setItem("reviews", JSON.stringify(updated));
     setReviews(updated);
-
     setError(false);
     setSuccess("Thank you! Your review was submitted.");
-
     setName("");
     setMovieRating(0);
     setSiteRating(0);
@@ -103,106 +65,74 @@ const RatingForm = ({ movieName = "Dune: Part Two" }) => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ minHeight: "100vh", p: 3 }}>
-        <Typography variant="h4" sx={{ mb: 2, textAlign: "center" }}>
-          Leave a Review
-        </Typography>
+    <div className="rf-page">
+      <h2 className="rf-title">Leave a Review</h2>
 
-        <Paper sx={{ maxWidth: 500, p: 3, mx: "auto" }}>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-          >
-            {/* Name */}
-            <TextField
-              label="Your Name"
+      <div className="rf-card">
+        <form onSubmit={handleSubmit} className="rf-form">
+          <div className="rf-field">
+            <label className="rf-label">
+              Your Name <span className="rf-required">*</span>
+            </label>
+            <input
+              className="rf-input"
+              type="text"
+              placeholder="e.g. Jane Doe"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              fullWidth
               autoFocus
             />
+          </div>
 
-            <Divider />
+          <div className="rf-divider" />
 
-            {/* Movie Rating */}
-            <StarRatingField
-              label={`Rate "${movieName}"`}
-              required
-              value={movieRating}
-              onChange={setMovieRating}
-            />
+          <StarRating
+            label={`Rate "${movieName}"`}
+            required
+            value={movieRating}
+            onChange={setMovieRating}
+          />
+          <StarRating
+            label="Rate this website"
+            required
+            value={siteRating}
+            onChange={setSiteRating}
+          />
 
-            {/* Website Rating */}
-            <StarRatingField
-              label="Rate Website"
-              required
-              value={siteRating}
-              onChange={setSiteRating}
-            />
+          <div className="rf-divider" />
 
-            <Divider />
-
-            {/* Review */}
-            <TextField
-              label="Your Review"
+          <div className="rf-field">
+            <label className="rf-label">
+              Your Review <span className="rf-muted">(optional)</span>
+            </label>
+            <textarea
+              className="rf-input rf-textarea"
+              placeholder="Share your thoughts…"
               value={review}
               onChange={(e) => setReview(e.target.value)}
-              fullWidth
-              multiline
-              minRows={3}
+              rows={4}
             />
+          </div>
 
-            {/* Error */}
-            {error && (
-              <Typography color="error">
-                Please fill all required fields
-              </Typography>
-            )}
+          {error && (
+            <p className="rf-msg rf-msg--error">
+              Please fill in all required fields.
+            </p>
+          )}
+          {success && <p className="rf-msg rf-msg--success">{success}</p>}
 
-            {/* Success */}
-            {success && (
-              <Typography sx={{ color: "green" }}>{success}</Typography>
-            )}
+          <button type="submit" className="rf-submit">
+            Submit Review
+          </button>
+        </form>
+      </div>
 
-            {/* Submit */}
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                backgroundColor: "#6b3e20",
-                "&:hover": { backgroundColor: "#5a3218" },
-              }}
-            >
-              Submit
-            </Button>
-          </Box>
-        </Paper>
-
-        {/* Show All Reviews Button */}
-        <Box sx={{ maxWidth: 500, mx: "auto", mt: 3 }}>
-          <Button
-            onClick={() => navigate("/reviews")}
-            variant="outlined"
-            fullWidth
-            startIcon={<RateReviewIcon />}
-            sx={{
-              borderColor: "#6b3e20",
-              color: "#6b3e20",
-              py: 1.2,
-              fontWeight: 600,
-              "&:hover": {
-                backgroundColor: "rgba(107, 62, 32, 0.06)",
-                borderColor: "#6b3e20",
-              },
-            }}
-          >
-            Show All Reviews ({reviews.length})
-          </Button>
-        </Box>
-      </Box>
-    </ThemeProvider>
+      <div className="rf-all-btn-wrap">
+        <button className="rf-all-btn" onClick={() => navigate("/reviews")}>
+          View All Reviews ({reviews.length})
+        </button>
+      </div>
+    </div>
   );
 };
 

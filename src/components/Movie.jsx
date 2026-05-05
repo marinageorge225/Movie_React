@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Movie = ({ movie }) => {
   const [showMore, setShowMore] = useState(false);
@@ -14,18 +15,18 @@ const Movie = ({ movie }) => {
     e.target.src = "/images/default.jpg";
   };
 
-  // limit text
   const shortOverview =
     movie.overview?.length > 40 ? movie.overview.slice(0, 20) : movie.overview;
 
   return (
     <div className="movie-card">
-      <img src={movie.imageUrl} alt={movie.name} onError={handleError} />
+      <Link to={`/movieDetails/${movie.id}`}>
+        <img src={movie.imageUrl} alt={movie.name} onError={handleError} />
+      </Link>
 
       <div className="movie-card-info">
         <h3 className="movie-card-title">{movie.name}</h3>
 
-        {/* OVERVIEW */}
         <p title={movie.overview} className="movie-card-overview">
           {showMore ? movie.overview : shortOverview}
 
